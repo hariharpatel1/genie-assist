@@ -18,14 +18,11 @@ from langchain_core.runnables import RunnablePassthrough
 
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
-from langgraph.graph.message import add_messages
-from langgraph.prebuilt import ToolNode, tools_condition
-from langgraph.types import Command, interrupt, maybe_callable
+from langgraph.prebuilt import ToolNode
 
 from agents.state import KnowledgeGap, OnboardingProgress, RetrievedContext, State, create_initial_state
-from config.settings import settings
-from retrieval.code_retriever import CodeRetriever
-from retrieval.document_retriever import DocumentRetriever
+from retrivers.code_retriever import CodeRetriever
+from retrivers.document_retriever import DocumentRetriever
 from tools.code_explorer import CodeExplorerTools
 from tools.doc_navigator import DocNavigatorTools
 from tools.human_escalation import HumanEscalationTools

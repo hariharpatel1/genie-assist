@@ -7,7 +7,7 @@ from datetime import datetime
 
 import streamlit as st
 
-from config.settings import settings
+from cfg.settings import settings
 from ui.main_page import render_main_page
 
 # Configure logging

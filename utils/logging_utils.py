@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 from typing import Optional
 
-from config.settings import settings
+from cfg.settings import settings
 
 def setup_logging(
     log_level: Optional[str] = None,

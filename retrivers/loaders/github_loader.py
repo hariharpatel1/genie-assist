@@ -12,7 +12,7 @@ from langchain_community.document_loaders.generic import GenericLoader
 from langchain_community.document_loaders.parsers import LanguageParser
 from langchain_core.documents import Document
 
-from config.settings import settings
+from cfg.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -165,3 +165,6 @@ class GitHubRepositoryLoader:
             all_documents.extend(docs)
         
         return all_documents
+
+# define global instance
+github_loader = GitHubRepositoryLoader()

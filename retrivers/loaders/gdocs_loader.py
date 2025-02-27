@@ -5,10 +5,10 @@ import logging
 import os
 from typing import List, Optional
 
-from langchain_community.document_loaders import GoogleDriveLoader
+from langchain.document_loaders import GoogleDriveLoader
 from langchain_core.documents import Document
 
-from config.settings import settings
+from cfg.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -114,3 +114,6 @@ class GoogleDocsLoader:
         except Exception as e:
             logger.error(f"Error loading documents from folder {folder_id}: {e}")
             return []
+
+# define global instance
+gdocs_loader = GoogleDocsLoader()

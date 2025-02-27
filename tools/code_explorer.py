@@ -8,7 +8,7 @@ from langchain.tools import BaseTool
 from langchain_core.documents import Document
 from langchain_core.tools import Tool
 
-from retrieval.code_retriever import CodeRetriever
+from retrivers.code_retriever import CodeRetriever
 
 logger = logging.getLogger(__name__)
 

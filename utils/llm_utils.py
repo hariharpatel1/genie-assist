@@ -6,10 +6,10 @@ from typing import Optional
 
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain_azure import AzureChatOpenAI
+from langchain_openai import AzureChatOpenAI
 from langchain_core.language_models import BaseChatModel
 
-from config.settings import settings
+from cfg.settings import settings
 
 logger = logging.getLogger(__name__)
 

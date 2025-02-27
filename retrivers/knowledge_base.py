@@ -6,13 +6,13 @@ import os
 from typing import Dict, List, Optional, Union
 
 import chromadb
-from langchain.embeddings import AzureOpenAIEmbeddings
+from langchain_openai import AzureOpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
 from langchain_core.documents import Document
 from langchain_core.vectorstores import VectorStore
 
-from config.settings import settings
+from cfg.settings import settings
 
 logger = logging.getLogger(__name__)
 
@@ -34,9 +34,10 @@ class KnowledgeBase:
         # Create embeddings model
         self.embeddings = AzureOpenAIEmbeddings(
             azure_deployment=settings.AZURE_OPENAI_DEPLOYMENT_NAME,
-            openai_api_key=settings.AZURE_OPENAI_API_KEY,
+            api_key=settings.AZURE_OPENAI_API_KEY,
             azure_endpoint=settings.AZURE_OPENAI_ENDPOINT,
             api_version=settings.AZURE_OPENAI_API_VERSION,
+            chunk_size=512,  # Explicitly setting a value
         )
         
         # Ensure persist directory exists
@@ -170,3 +171,6 @@ class KnowledgeBase:
         except Exception as e:
             logger.error(f"Error getting knowledge base stats: {e}")
             return {"error": str(e)}
+
+# define global variables
+knowledge_base = KnowledgeBase()
