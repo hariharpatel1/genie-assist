@@ -121,3 +121,6 @@ class PDFDocumentLoader:
         except Exception as e:
             logger.error(f"Error loading PDFs from directory {directory_path}: {e}")
             return []
+
+#define global instance
+pdf_loader = PDFDocumentLoader(use_unstructured=True)

@@ -1,6 +1,7 @@
 """
 Reusable UI components for the Streamlit app.
 """
+from datetime import datetime
 import logging
 from typing import Dict, List, Optional
 
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 def render_sidebar():
     """Render the sidebar with controls and information."""
     with st.sidebar:
-        st.title("Onboarding Assistant")
+        st.title("Onboarding Assistant 🧞‍♂️")
         st.subheader("Features")
         
         # Features list

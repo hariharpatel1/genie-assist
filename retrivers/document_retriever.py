@@ -6,10 +6,10 @@ from typing import Dict, List, Optional, Union
 
 from langchain_core.documents import Document
 
-from config.settings import settings
-from retrieval.knowledge_base import KnowledgeBase
-from retrieval.loaders.gdocs_loader import GoogleDocsLoader
-from retrieval.loaders.pdf_loader import PDFDocumentLoader
+from cfg.settings import settings
+from retrivers.knowledge_base import KnowledgeBase
+from retrivers.loaders.gdocs_loader import GoogleDocsLoader
+from retrivers.loaders.pdf_loader import PDFDocumentLoader
 
 logger = logging.getLogger(__name__)
 
@@ -162,3 +162,6 @@ class DocumentRetriever:
             Dictionary of statistics
         """
         return self.knowledge_base.get_stats()
+    
+# define global document retriever
+document_retriever = DocumentRetriever()

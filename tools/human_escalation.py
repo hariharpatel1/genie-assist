@@ -8,7 +8,7 @@ from typing import Dict, List, Optional
 from langchain_core.tools import Tool
 from langgraph.types import Command, interrupt
 
-from config.settings import settings
+from cfg.settings import settings
 
 logger = logging.getLogger(__name__)
 

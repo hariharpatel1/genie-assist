@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 from langchain_core.documents import Document
 from langchain_core.tools import Tool
 
-from retrieval.document_retriever import DocumentRetriever
+from retrivers.document_retriever import DocumentRetriever
 
 logger = logging.getLogger(__name__)
 

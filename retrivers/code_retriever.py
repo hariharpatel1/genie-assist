@@ -6,9 +6,10 @@ from typing import Dict, List, Optional, Union
 
 from langchain_core.documents import Document
 
-from config.settings import settings
-from retrieval.knowledge_base import KnowledgeBase
-from retrieval.loaders.github_loader import GitHubRepositoryLoader
+from cfg.settings import settings
+
+from retrivers.knowledge_base import KnowledgeBase
+from retrivers.loaders.github_loader import GitHubRepositoryLoader
 
 logger = logging.getLogger(__name__)
 
@@ -156,3 +157,6 @@ class CodeRetriever:
             Dictionary of statistics
         """
         return self.knowledge_base.get_stats()
+    
+# define global code retriever instance
+code_retriever = CodeRetriever()
