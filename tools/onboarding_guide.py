@@ -32,7 +32,7 @@ class OnboardingGuideTools:
         
         logger.info("Initialized onboarding guide tools")
     
-    def create_onboarding_plan(self, user_id: str, user_name: str, role: str) -> Dict:
+    def create_onboarding_plan(self, user_id: str, user_name: str, role: str) -> OnboardingProgress:
         """
         Create a personalized onboarding plan for a new team member.
         
@@ -55,13 +55,8 @@ class OnboardingGuideTools:
                 remaining_steps=self.default_steps.copy(),
                 current_step=self.default_steps[0] if self.default_steps else None,
             )
+            return progress
             
-            # Convert to dictionary for return
-            return {
-                "onboarding_progress": progress.model_dump(),
-                "message": f"Created onboarding plan for {user_name} ({role})"
-            }
-        
         except Exception as e:
             logger.error(f"Error creating onboarding plan: {e}")
             return {

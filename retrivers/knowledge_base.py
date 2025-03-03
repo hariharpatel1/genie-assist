@@ -8,7 +8,7 @@ from typing import Dict, List, Optional, Union
 import chromadb
 from langchain_openai import AzureOpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_core.vectorstores import VectorStore
 
@@ -33,10 +33,10 @@ class KnowledgeBase:
         
         # Create embeddings model
         self.embeddings = AzureOpenAIEmbeddings(
-            azure_deployment=settings.AZURE_OPENAI_DEPLOYMENT_NAME,
-            api_key=settings.AZURE_OPENAI_API_KEY,
-            azure_endpoint=settings.AZURE_OPENAI_ENDPOINT,
-            api_version=settings.AZURE_OPENAI_API_VERSION,
+            azure_deployment=settings.AZURE_EMBEDDINGS_DEPLOYMENT_NAME,
+            api_key=settings.AZURE_EMBEDDINGS_API_KEY,
+            azure_endpoint=settings.AZURE_EMBEDDINGS_ENDPOINT,
+            api_version=settings.AZURE_EMBEDDINGS_API_VERSION,
             chunk_size=512,  # Explicitly setting a value
         )
         
@@ -45,7 +45,7 @@ class KnowledgeBase:
         
         # Initialize vector store
         self.vectorstore = self._initialize_vectorstore()
-        
+
         # Text splitter for document chunking
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
@@ -95,7 +95,7 @@ class KnowledgeBase:
             
             # Add to vector store
             self.vectorstore.add_documents(chunks)
-            self.vectorstore.persist()
+            #self.vectorstore.persist()
             
             logger.info(f"Added {len(chunks)} document chunks to the knowledge base")
         except Exception as e:
@@ -171,6 +171,51 @@ class KnowledgeBase:
         except Exception as e:
             logger.error(f"Error getting knowledge base stats: {e}")
             return {"error": str(e)}
+
+    def delete(self, ids: Optional[List[str]] = None, **kwargs) -> bool:
+        """
+        Delete documents from the knowledge base by their IDs.
+        
+        Args:
+            ids: List of document IDs to delete. If None, deletes all documents.
+            **kwargs: Additional keyword arguments that might be used by the implementation.
+            
+        Returns:
+            bool: True if deletion is successful, False otherwise.
+        """
+        try:
+            if ids is None:
+                # Delete all documents in the collection
+                logger.info(f"Deleting all documents from collection '{self.collection_name}'")
+                # Use get_collection to avoid the deprecation warning
+                client = chromadb.PersistentClient(path=self.persist_directory)
+                try:
+                    collection = client.get_collection(name="onboarding_docs")
+                    # Get all document IDs
+                    collection_ids = collection.get()["ids"]
+                    logger.info(f"Found {(collection_ids)} documents in the collection")
+                    if collection_ids:
+                        collection.delete(collection_ids)
+                    logger.info(f"Deleted all {len(collection_ids)} documents from the collection")
+                except Exception as e:
+                    logger.warning(f"Error accessing collection directly: {e}")
+                    # Fallback to vectorstore implementation if available
+                    if hasattr(self.vectorstore, "_collection"):
+                        self.vectorstore._collection.delete()
+                        logger.info("Deleted all documents using vectorstore collection reference")
+            else:
+                # Delete specific documents by ID
+                logger.info(f"Deleting {len(ids)} documents from collection '{self.collection_name}'")
+                # Use the vectorstore's delete method directly
+                self.vectorstore.delete(ids)
+                
+            # Persist changes
+            self.vectorstore.persist()
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error deleting documents from knowledge base: {e}")
+            return False
 
 # define global variables
 knowledge_base = KnowledgeBase()

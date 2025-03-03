@@ -125,7 +125,6 @@ def get_onboarding_progress(thread_id: str, agent: OnboardingAgent) -> Optional[
         logger.error(f"Error getting onboarding progress: {e}")
         return None
 
-
 def handle_document_upload():
     """Handle document upload and processing."""
     with st.expander("Upload Documents", expanded=False):
@@ -135,7 +134,7 @@ def handle_document_upload():
         uploaded_files = st.file_uploader(
             "Choose files (PDF, TXT, etc.)", 
             accept_multiple_files=True,
-            type=["pdf", "txt", "md", "csv", "json", "py", "js", "html", "css"]
+            type=["pdf", "txt", "md", "csv", "json", "py", "js", "html", "css", ".go"]
         )
         
         # Process uploaded files
@@ -188,7 +187,7 @@ def handle_document_upload():
                                 
                                 processed_files.append(f"Text: {uploaded_file.name}")
                             
-                            elif uploaded_file.name.endswith((".py", ".js", ".html", ".css")):
+                            elif uploaded_file.name.endswith((".py", ".js", ".html", ".css", ".go")):
                                 # Process code file
                                 from langchain_core.documents import Document
                                 
@@ -228,7 +227,6 @@ def handle_document_upload():
                                 "role": "assistant",
                                 "content": f"I've processed {len(processed_files)} documents. You can now ask questions about them!"
                             })
-
 
 def render_main_page():
     """Render the main Streamlit page."""
