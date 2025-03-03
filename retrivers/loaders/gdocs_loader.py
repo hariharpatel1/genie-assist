@@ -5,7 +5,7 @@ import logging
 import os
 from typing import List, Optional
 
-from langchain.document_loaders import GoogleDriveLoader
+from langchain_community.document_loaders import GoogleDriveLoader
 from langchain_core.documents import Document
 
 from cfg.settings import settings
